@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swagger Sales Command Center — Bina Shah</title>
+<meta name="description" content="An interactive view of how Bina Shah would lead the North American Swagger sales team at SmartBear — forecast, pipeline, rep coaching, market intel and operating rhythm.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root{
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --color-text-primary:#1f1f1d;--color-text-secondary:#5f5e5a;--color-text-tertiary:#8a8980;
+    --color-background-page:#f4f3ee;--color-background-primary:#ffffff;--color-background-secondary:#f1efe8;--color-background-tertiary:#e9e7df;
+    --color-border-tertiary:rgba(0,0,0,.10);--color-border-secondary:rgba(0,0,0,.18);--color-border-info:#378ADD;
+    --color-background-info:#E6F1FB;--color-text-info:#185FA5;
+    --border-radius-md:8px;--border-radius-lg:12px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --color-text-primary:#ececea;--color-text-secondary:#a8a79f;--color-text-tertiary:#7d7c75;
+      --color-background-page:#1b1b19;--color-background-primary:#262521;--color-background-secondary:#2f2e29;--color-background-tertiary:#3a3933;
+      --color-border-tertiary:rgba(255,255,255,.12);--color-border-secondary:rgba(255,255,255,.2);
+      --color-background-info:#0C447C;--color-text-info:#B5D4F4;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--color-background-page);font-family:var(--font-sans);color:var(--color-text-primary);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .page{max-width:760px;margin:0 auto;padding:28px 20px 48px}
+  .masthead{background:#0C447C;border-radius:var(--border-radius-lg);padding:22px 24px;margin-bottom:20px}
+  .masthead .ey{color:#B5D4F4;font-size:13px;font-weight:500;margin:0 0 6px}
+  .masthead h1{color:#fff;font-size:24px;font-weight:500;margin:0 0 6px}
+  .masthead p{color:#E6F1FB;font-size:14px;margin:0}
+  .intro{font-size:14px;color:var(--color-text-secondary);margin:0 0 20px;line-height:1.6}
+  .sb-tabbar{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 1rem;border-bottom:.5px solid var(--color-border-tertiary);padding-bottom:10px}
+  .sb-tab{font-size:13px;padding:7px 12px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;color:var(--color-text-secondary);font-family:inherit}
+  .sb-tab.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+  .sb-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 1rem}
+  .sb-mc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.8rem .9rem}
+  .sb-mc .l{font-size:12px;color:var(--color-text-secondary);margin:0 0 4px}
+  .sb-mc .v{font-size:22px;font-weight:500;margin:0}
+  .sb-mc .s{font-size:11px;color:var(--color-text-tertiary);margin:3px 0 0}
+  .sb-card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.1rem;margin:0 0 12px}
+  .sb-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .sb-h{font-size:15px;font-weight:500;margin:0 0 2px}
+  .sb-sub{font-size:12px;color:var(--color-text-secondary);margin:0}
+  .sb-bar{height:8px;border-radius:6px;background:var(--color-background-secondary);overflow:hidden;margin-top:8px}
+  .sb-bar > i{display:block;height:100%;border-radius:6px}
+  .sb-pill{font-size:11px;padding:3px 9px;border-radius:var(--border-radius-md);font-weight:500;white-space:nowrap;display:inline-block}
+  .sb-btn{font-size:12px;padding:6px 11px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;color:var(--color-text-primary);font-family:inherit}
+  .sb-btn:hover{background:var(--color-background-secondary)}
+  .sb-mini{font-size:12px;color:var(--color-text-secondary)}
+  .sb-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .sb-tag{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:2px 8px;border-radius:var(--border-radius-md);display:inline-block}
+  .sb-ladder{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .sb-step{flex:1;min-width:60px;text-align:center;font-size:11px;font-weight:500;padding:6px 4px;border-radius:var(--border-radius-md)}
+  .sb-panel{margin-top:10px;padding:12px 14px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);font-size:13px;color:var(--color-text-primary);line-height:1.6}
+  .sb-panel b{font-weight:500}
+  .foot{margin-top:24px;border-top:.5px solid var(--color-border-tertiary);padding-top:14px;font-size:12px;color:var(--color-text-tertiary);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead">
+    <p class="ey">SmartBear · Swagger</p>
+    <h1>Sales command center</h1>
+    <p>How I'd lead the North American Swagger sales team — Bina Shah</p>
+  </div>
+  <p class="intro">An interactive view of my operating model for first-line management of the Swagger AE team: install the forecast rhythm, the leading-indicator scorecards, and the deal discipline that make pipeline predictable — then coach reps to think and sell independently. The figures are illustrative; the system is real. Click the tabs, the reps, and the expandable prompts to see how I'd run it.</p>
+  <div class="sb-tabbar" id="sb-tabs"></div>
+  <div id="sb-body"></div>
+  <p class="foot">
+    Operating system: leading-indicator scorecards · MEDDIC deal inspection · bottom-quartile coaching plans · teach-don't-fish 1:1s · weekly product-intel loop — the same rigor that scaled Oracle's North American SDR org to $160M+ qualified pipeline. Illustrative data for portfolio purposes; contains no compensation figures.
+  </p>
+</div>
+<script>
+(function(){
+  const k=n=>'$'+Math.round(n/1000)+'K';
+  const C={ok:'#1D9E75',okbg:'#E1F5EE',okt:'#0F6E56',warn:'#BA7517',warnbg:'#FAEEDA',warnt:'#854F0B',risk:'#E24B4A',riskbg:'#FCEBEB',riskt:'#A32D2D',info:'#378ADD',infobg:'#E6F1FB',infot:'#185FA5'};
+  const team={quota:1500000,closed:980000,commit:1320000,best:1610000};
+  const reps=[
+    {n:'David Chen',lvl:'Major AE',q:420000,c:310000,cov:3.1,disco:9,demo:4,thread:5.2,meddic:82,st:'ok',note:'Quarterback on the two largest deals; coach toward exec-buyer access, not deal takeover.'},
+    {n:'Elena Vasquez',lvl:'AE2',q:330000,c:245000,cov:2.9,disco:8,demo:4,thread:4.0,meddic:74,st:'ok',note:'Strong expansion motion mining Northwind subsidiaries; push multi-year framing.'},
+    {n:'Marcus Lee',lvl:'AE2',q:330000,c:180000,cov:1.9,disco:6,demo:2,thread:1.8,meddic:48,st:'warn',note:'Single-threaded on Apex; coaching focus = multithreading + Economic Buyer.'},
+    {n:'Aisha Bello',lvl:'AE1',q:210000,c:150000,cov:3.4,disco:11,demo:5,thread:3.1,meddic:71,st:'ok',note:'Ramping ahead of curve; ready for first $100K+ enterprise cycle.'},
+    {n:'Jordan Reyes',lvl:'AE1',q:210000,c:95000,cov:1.4,disco:5,demo:2,thread:1.5,meddic:39,st:'risk',note:'Bottom-quartile — on a 30-day leading-indicator plan; activity + qualification gaps.'}
+  ];
+  const stages=[{s:'Discovery',v:640000},{s:'Validation',v:520000},{s:'Proposal',v:430000},{s:'Negotiation',v:360000},{s:'Commit',v:290000}];
+  const deals=[
+    {n:'Meridian Financial',rep:'David Chen',v:340000,st:'Negotiation',type:'Full platform',gap:'Economic Buyer confirmed; redline on procurement',risk:'warn',comp:'Postman (incumbent)',next:'Coach David to land the CFO business case — he runs the call, I prep the questions.'},
+    {n:'JetStream Bank',rep:'David Chen',v:260000,st:'Validation',type:'New logo',gap:'Champion strong, no Decision Criteria doc',risk:'warn',comp:'Stoplight',next:'Teach: mutual action plan to surface criteria, not me jumping in.'},
+    {n:'Northwind Health',rep:'Elena Vasquez',v:180000,st:'Proposal',type:'Expansion / subsidiary',gap:'Metrics quantified; needs paper process',risk:'ok',comp:'Open-source OpenAPI',next:'Reinforce expansion playbook; multi-year close.'},
+    {n:'Apex Logistics',rep:'Marcus Lee',v:120000,st:'Discovery',type:'New logo',gap:'Single-threaded, no Economic Buyer, weak pain',risk:'risk',comp:'Kong',next:'Live MEDDIC coaching — multithread to 3+ stakeholders this week.'},
+    {n:'BluePeak SaaS',rep:'Aisha Bello',v:110000,st:'Proposal',type:'New logo',gap:'Clean deal; verify implications of doing nothing',risk:'ok',comp:'RapidAPI',next:'Stretch rep — let her run negotiation with a dry-run first.'}
+  ];
+  const intel=[
+    {t:'AI-assisted API design governance',d:'3 FSI prospects asked for guardrails on AI-generated specs. Net-new differentiator vs Postman.',tag:'Roadmap input',c:'info'},
+    {t:'Postman bundling mock servers free',d:'Pricing pressure in mid-market; need value framing on governance + standards at scale.',tag:'Competitive',c:'warn'},
+    {t:'On-prem / SOC2 design governance (FSI)',d:'2 banks gated on self-hosted SwaggerHub. Recurring enterprise blocker.',tag:'Roadmap input',c:'info'},
+    {t:'Spec-driven gen-AI codegen',d:'Two Fortune 500 accounts want OpenAPI → service scaffolding. Expansion wedge.',tag:'Opportunity',c:'ok'}
+  ];
+  const cadence=[
+    {d:'Mon',t:'In office · team pipeline standup',x:'Priorities + commit movement for the week'},
+    {d:'Tue',t:'Deal-coaching 1:1s (teach, not fish)',x:'MEDDIC gaps, next best action — rep owns the call'},
+    {d:'Wed',t:'In office · product team sync',x:'Push customer + competitive intel into the roadmap'},
+    {d:'Thu',t:'Forecast call · commit lock',x:'Waterfall dashboard; commit vs best case vs gap'},
+    {d:'Fri',t:'Skip-levels + scorecard review',x:'Leading indicators, ramp, bottom-quartile plan'}
+  ];
+  const ladder=['SDR','AE1','AE2','AE3','Major','Sr Major'];
+
+  const pill=(st,txt)=>{const m={ok:[C.okbg,C.okt],warn:[C.warnbg,C.warnt],risk:[C.riskbg,C.riskt],info:[C.infobg,C.infot]}[st];return `<span class="sb-pill" style="background:${m[0]};color:${m[1]}">${txt}</span>`};
+  const col=st=>({ok:C.ok,warn:C.warn,risk:C.risk,info:C.info}[st]);
+
+  function repCoaching(r){
+    const inds=[['discovery activity',r.disco<8],['demo throughput',r.demo<4],['multithreading',r.thread<3],['MEDDIC qualification',r.meddic<70]];
+    const weak=inds.filter(x=>x[1]).map(x=>x[0]);
+    const focus=weak.length?weak.join(' and '):'consistency and stretching into larger enterprise cycles';
+    return `<b>Diagnose:</b> the signal says ${focus} — not effort. <br>`+
+      `<b>Ask (don't tell):</b> "Walk me through the last three deals — where did each one actually stall, and who did you still need in the room?" Let ${r.n.split(' ')[0]} name the gap. <br>`+
+      `<b>Rep owns:</b> one concrete commitment for the week (e.g. a second stakeholder on every open deal, or a MEDDIC pass on top three) that we inspect together next 1:1. I coach the thinking; ${r.n.split(' ')[0]} makes the calls.`;
+  }
+  const panels={
+    forecast:`<b>Thursday forecast call — how I run it.</b> Reps walk their own commit; I challenge with evidence, not opinion: "What has to be true for this to close, and what's your proof?" Anything without a confirmed next step and Economic Buyer moves out of commit. We lock commit vs best case off the waterfall, agree the gap-closing actions, and I leave owning the number with leadership while reps leave owning their deals.`,
+    deal:`<b>Apex Logistics — MEDDIC inspection (I ask, Marcus answers).</b> Metrics: "What does doing nothing cost them this year?" · Economic Buyer: "Who signs, and have we met them?" · Decision Criteria/Process: "How will they choose, and what's the paper path?" · Identify Pain: "Is this a top-three priority or a nice-to-have?" · Champion: "Who sells for us when we're not in the room?" The gap is obvious once he answers — single-threaded, no EB. His action: multithread to 3+ stakeholders this week.`,
+    intel:`<b>Three talking points for the product sync.</b> 1) AI API-design governance — 3 FSI prospects want guardrails on AI-generated specs; ties to Meridian, a wedge vs Postman. 2) Self-hosted / SOC2 design governance — gating two FSI deals worth $400K+; recurring enterprise blocker. 3) Spec-driven gen-AI codegen — two Fortune 500 accounts want OpenAPI→scaffolding; an expansion lever. Each point is anchored to a live deal so product hears revenue, not anecdote.`,
+    keith:`<b>5-minute verbal update for Keith.</b> "We're at 88% commit, $180K gap covered 3.4x, forecast within ±4% of the last three quarters. Two reps flagged: Marcus single-threaded on Apex — live MEDDIC coaching this week; Jordan on a 30-day leading-indicator plan. Top deal risk is Meridian's procurement redline; David's driving the CFO case. Market signal: FSI demand for AI design governance — feeding product Wednesday. One ask: air cover on self-hosted SwaggerHub timing, it's gating $400K+."`
+  };
+
+  const tabs=[['forecast','Forecast & pipeline'],['team','Team, leveling & growth'],['deals','Deal inspection'],['intel','Market → product'],['rhythm','Operating rhythm'],['keith','Keith 1:1 prep']];
+  let active='forecast';
+  const body=document.getElementById('sb-body');
+  const tb=document.getElementById('sb-tabs');
+  tb.innerHTML=tabs.map(t=>`<button class="sb-tab${t[0]===active?' on':''}" data-t="${t[0]}">${t[1]}</button>`).join('');
+
+  function btn(id,label){return `<button class="sb-btn" data-panel="${id}">${label}</button><div class="sb-panel" data-for="${id}" style="display:none">${panels[id]}</div>`}
+
+  function render(){
+    tb.querySelectorAll('.sb-tab').forEach(b=>b.classList.toggle('on',b.dataset.t===active));
+    body.innerHTML=views[active]();
+    if(active==='forecast')drawChart();
+    body.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>{const p=body.querySelector(`[data-for="${b.dataset.panel}"]`);if(p)p.style.display=p.style.display==='none'?'block':'none'});
+    body.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{const p=body.querySelector(`[data-repfor="${b.dataset.rep}"]`);if(p)p.style.display=p.style.display==='none'?'block':'none'});
+  }
+
+  const views={
+    forecast(){
+      const att=team.closed/team.quota, com=team.commit/team.quota, gap=team.quota-team.commit;
+      return `<div class="sb-cards">
+        <div class="sb-mc"><p class="l">Team quota</p><p class="v">${k(team.quota)}</p><p class="s">Q2 FY26</p></div>
+        <div class="sb-mc"><p class="l">Closed-won</p><p class="v" style="color:${C.ok}">${k(team.closed)}</p><p class="s">${Math.round(att*100)}% to plan</p></div>
+        <div class="sb-mc"><p class="l">Commit</p><p class="v">${k(team.commit)}</p><p class="s">${Math.round(com*100)}% — ${k(gap)} gap</p></div>
+        <div class="sb-mc"><p class="l">Best case</p><p class="v" style="color:${C.info}">${k(team.best)}</p><p class="s">107% to plan</p></div>
+        <div class="sb-mc"><p class="l">Gap coverage</p><p class="v">3.4×</p><p class="s">on ${k(gap)} to commit</p></div>
+      </div>
+      <div class="sb-card">
+        <div class="sb-row"><p class="sb-h">Attainment waterfall</p>${pill('ok','on track to commit')}</div>
+        <div style="margin-top:12px">${
+          [['Closed-won',team.closed,C.ok],['+ Commit pipeline',team.commit-team.closed,C.info],['+ Best-case upside',team.best-team.commit,C.warn]].map(r=>`
+          <div style="margin-bottom:10px"><div class="sb-row"><span class="sb-mini">${r[0]}</span><span class="sb-mini" style="font-weight:500">${k(r[1])}</span></div>
+          <div class="sb-bar"><i style="width:${Math.min(100,r[1]/team.quota*100)}%;background:${r[2]}"></i></div></div>`).join('')
+        }<p class="sb-mini" style="margin-top:6px">Plan = ${k(team.quota)}. Best case clears plan by ${k(team.best-team.quota)}; my job is converting best-case to commit through deal inspection, not hope.</p></div>
+      </div>
+      <div class="sb-card">
+        <p class="sb-h">Pipeline by stage</p>
+        <div style="position:relative;height:200px;margin-top:8px"><canvas id="sbFunnel" role="img" aria-label="Pipeline value by stage from discovery to commit"></canvas></div>
+      </div>
+      ${btn('forecast','How I run the forecast call')}`;
+    },
+    team(){
+      let html=`<div class="sb-card">
+        <div class="sb-row"><p class="sb-h">Leveling ladder &amp; the path from 5 to 8</p>${pill('info','growth plan')}</div>
+        <div class="sb-ladder">${ladder.map((s,i)=>`<span class="sb-step" style="background:${i%2?C.infobg:C.okbg};color:${i%2?C.infot:C.okt}">${s}</span>`).join('<span style="color:var(--color-text-tertiary)">&rsaquo;</span>')}</div>
+        <p class="sb-mini" style="margin-top:8px">Books shift commercial → enterprise as reps move right. Current team: 5 AEs (2 AE1 · 2 AE2 · 1 Major).</p>
+        <div class="sb-grid2" style="margin-top:10px">
+          <div class="sb-mc"><p class="l">+2 AE1 · acquisition</p><p class="v" style="font-size:15px">Widen new-logo funnel</p><p class="s">outbound-first ramp; promote ready SDRs</p></div>
+          <div class="sb-mc"><p class="l">+1 AE2 · expansion</p><p class="v" style="font-size:15px">Subsidiary mining</p><p class="s">cross-sell inside enterprise accounts</p></div>
+        </div>
+        <p class="sb-mini" style="margin-top:8px"><i class="ti ti-users" aria-hidden="true"></i> Bench, not bodies — manager-in-training track so the bar holds as we scale to 8.</p>
+      </div>
+      <p class="sb-mini" style="margin-bottom:10px">Each rep is a leading-indicator scorecard. Click to coach the indicators, not the deal.</p>`;
+      return html+reps.map((r,i)=>{const att=r.c/r.q;return `<div class="sb-card">
+        <div class="sb-row">
+          <div class="sb-row" style="gap:10px">
+            <div style="width:38px;height:38px;border-radius:50%;background:${C.infobg};color:${C.infot};display:flex;align-items:center;justify-content:center;font-weight:500;font-size:13px">${r.n.split(' ').map(x=>x[0]).join('')}</div>
+            <div><p class="sb-h" style="font-size:14px">${r.n}</p><p class="sb-sub">${r.lvl} · quota ${k(r.q)} · ${Math.round(att*100)}% attained</p></div>
+          </div>${pill(r.st,r.st==='ok'?'healthy':r.st==='warn'?'watch':'30-day plan')}
+        </div>
+        <div class="sb-bar" style="margin-top:10px"><i style="width:${Math.min(100,att*100)}%;background:${col(r.st)}"></i></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px">
+          ${[['Disco/wk',r.disco,r.disco>=8],['Demos/wk',r.demo,r.demo>=4],['Threads/deal',r.thread,r.thread>=3],['MEDDIC%',r.meddic,r.meddic>=70]].map(m=>`
+          <div class="sb-mc" style="padding:.5rem"><p class="l" style="font-size:11px">${m[0]}</p><p class="v" style="font-size:16px;color:${m[2]?C.ok:C.risk}">${m[1]}</p></div>`).join('')}
+        </div>
+        <p class="sb-mini" style="margin-top:10px"><i class="ti ti-bulb" aria-hidden="true"></i> ${r.note}</p>
+        <button class="sb-btn" data-rep="${i}" style="margin-top:8px">Build ${r.n.split(' ')[0]}'s 1:1</button>
+        <div class="sb-panel" data-repfor="${i}" style="display:none">${repCoaching(r)}</div>
+      </div>`}).join('');
+    },
+    deals(){
+      return `<p class="sb-mini" style="margin-bottom:10px">Enterprise deals $100K+, 3–6 month cycles. Inspection surfaces the MEDDIC gap and the next action — the rep stays the quarterback.</p>`+
+      deals.map(d=>`<div class="sb-card">
+        <div class="sb-row"><div><p class="sb-h" style="font-size:14px">${d.n} · ${k(d.v)}</p><p class="sb-sub">${d.rep} · ${d.type} · vs ${d.comp}</p></div>${pill(d.risk,d.st)}</div>
+        <div style="margin-top:10px"><span class="sb-tag"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Gap: ${d.gap}</span></div>
+        <p class="sb-mini" style="margin-top:8px"><i class="ti ti-arrow-right" aria-hidden="true"></i> ${d.next}</p>
+      </div>`).join('')+btn('deal','Inspect the Apex Logistics deal with MEDDIC');
+    },
+    intel(){
+      return `<p class="sb-mini" style="margin-bottom:10px">Weekly product sync turns field signal into roadmap — a real differentiator vs large orgs where reps never reach product.</p>`+
+      `<div class="sb-grid2">`+intel.map(x=>`<div class="sb-card" style="margin:0">
+        <div class="sb-row" style="margin-bottom:6px">${pill(x.c,x.tag)}</div>
+        <p class="sb-h" style="font-size:14px">${x.t}</p><p class="sb-sub" style="margin-top:4px;line-height:1.5">${x.d}</p>
+      </div>`).join('')+`</div><div style="margin-top:12px">${btn('intel','Prep my product sync talking points')}</div>`;
+    },
+    rhythm(){
+      return `<p class="sb-mini" style="margin-bottom:10px">Structure in a fast-moving environment — proactive, not reactive. Hybrid: in office Mon + Wed (company-wide), low travel.</p>`+
+      cadence.map(c=>`<div class="sb-card"><div class="sb-row">
+        <div class="sb-row" style="gap:12px"><span class="sb-pill" style="background:${C.infobg};color:${C.infot};min-width:42px;text-align:center">${c.d}</span>
+        <div><p class="sb-h" style="font-size:14px">${c.t}</p><p class="sb-sub">${c.x}</p></div></div>
+      </div></div>`).join('')+
+      `<div class="sb-card"><p class="sb-h" style="font-size:14px">Inspection cadence (the engine)</p>
+      <p class="sb-sub" style="margin-top:6px;line-height:1.6">Daily: activity + new pipeline. Weekly: leading-indicator scorecards + commit waterfall. Monthly: ramp, quota coverage, bottom-quartile review. Same framework that lifted SQL/rep 22% YoY at Oracle.</p></div>`;
+    },
+    keith(){
+      const gap=team.quota-team.commit;
+      return `<div class="sb-card" style="border:2px solid ${C.info}">
+        <div class="sb-row"><p class="sb-h">Weekly 1:1 with Keith — auto-brief</p>${pill('info','proactive, before he asks')}</div>
+        <div class="sb-cards" style="margin-top:12px">
+          <div class="sb-mc"><p class="l">Forecast</p><p class="v">${k(team.commit)}</p><p class="s">88% commit · ${k(gap)} gap, 3.4× covered</p></div>
+          <div class="sb-mc"><p class="l">Forecast accuracy</p><p class="v">±4%</p><p class="s">last 3 quarters</p></div>
+          <div class="sb-mc"><p class="l">At-risk reps</p><p class="v" style="color:${C.warn}">2</p><p class="s">Marcus (watch), Jordan (plan)</p></div>
+        </div>
+        <div style="margin-top:6px">
+          <p class="sb-mini" style="margin:10px 0 4px;font-weight:500;color:var(--color-text-primary)">Top risks I'm already on</p>
+          <p class="sb-sub" style="line-height:1.6">· Meridian ($340K) — Economic Buyer / procurement redline; David driving CFO case.<br>· Apex ($120K) — single-threaded; live MEDDIC coaching with Marcus this week.<br>· Jordan — 30-day leading-indicator plan, activity + qualification.</p>
+          <p class="sb-mini" style="margin:12px 0 4px;font-weight:500;color:var(--color-text-primary)">Market signal of the week</p>
+          <p class="sb-sub" style="line-height:1.6">FSI demand for AI API-design governance (3 prospects) — feeding to product Wed; potential wedge vs Postman.</p>
+          <p class="sb-mini" style="margin:12px 0 4px;font-weight:500;color:var(--color-text-primary)">My ask</p>
+          <p class="sb-sub" style="line-height:1.6">Air cover on self-hosted SwaggerHub timing — it's gating two FSI deals worth $400K+.</p>
+        </div>
+        <div style="margin-top:12px">${btn('keith','Rehearse the verbal update')}</div>
+      </div>`;
+    }
+  };
+
+  function drawChart(){
+    const el=document.getElementById('sbFunnel');if(!el||!window.Chart)return;
+    new Chart(el,{type:'bar',data:{labels:stages.map(s=>s.s),datasets:[{data:stages.map(s=>s.v),backgroundColor:['#85B7EB','#378ADD','#185FA5','#BA7517','#1D9E75'],borderRadius:4}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>k(c.raw)}}},
+      scales:{x:{ticks:{callback:v=>'$'+v/1000+'K'},grid:{display:false}},y:{grid:{display:false}}}}});
+  }
+  tb.onclick=e=>{const b=e.target.closest('.sb-tab');if(!b)return;active=b.dataset.t;render()};
+  render();
+})();
+</script>
+</body>
+</html>

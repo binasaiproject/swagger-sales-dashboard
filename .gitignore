@@ -1,0 +1,5 @@
+.claude/
+.DS_Store
+__pycache__/
+Bina_Shah_Swagger_30-60-90_Plan.docx
+build_plan.py
